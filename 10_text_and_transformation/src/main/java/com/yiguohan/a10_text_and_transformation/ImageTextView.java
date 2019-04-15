@@ -16,7 +16,8 @@ public class ImageTextView extends View {
     private static final String text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean justo sem, sollicitudin in maximus a, vulputate id magna. Nulla non quam a massa sollicitudin commodo fermentum et est. Suspendisse potenti. Praesent dolor dui, dignissim quis tellus tincidunt, porttitor vulputate nisl. Aenean tempus lobortis finibus. Quisque nec nisl laoreet, placerat metus sit amet, consectetur est. Donec nec quam tortor. Aenean aliquet dui in enim venenatis, sed luctus ipsum maximus. Nam feugiat nisi rhoncus lacus facilisis pellentesque nec vitae lorem. Donec et risus eu ligula dapibus lobortis vel vulputate turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In porttitor, risus aliquam rutrum finibus, ex mi ultricies arcu, quis ornare lectus tortor nec metus. Donec ultricies metus at magna cursus congue. Nam eu sem eget enim pretium venenatis. Duis nibh ligula, lacinia ac nisi vestibulum, vulputate lacinia tortor.";
     Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private float[] textMeasuredWidth = new float[1];
+    Bitmap bitmap;
+    Paint.FontMetrics fontMetrics;
 
     public ImageTextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -25,14 +26,37 @@ public class ImageTextView extends View {
     {
         textPaint.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Quicksand-Regular.ttf"));
         textPaint.setTextSize(Utils.dp2px(20));
-        textPaint.breakText(text, 0, text.length(), true, text.length(), textMeasuredWidth);
+        bitmap = getBitmap((int) IMAGE_WIDTH);
+        fontMetrics = textPaint.getFontMetrics();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawBitmap(getBitmap((int) IMAGE_WIDTH), getWidth() - IMAGE_WIDTH, PADDING, mPaint);
-        canvas.drawText(text, 0, textPaint.getFontSpacing(), textPaint);
+        canvas.drawBitmap(bitmap, getWidth() - IMAGE_WIDTH, PADDING, mPaint);
+
+        int start = 0;
+        int count;
+        int currentRow = 1;
+        float singleFontSpacing = textPaint.getFontSpacing();
+        float fontSpaceing;
+        int usableLength;
+        while (start < text.length()) {
+            fontSpaceing = singleFontSpacing * currentRow;
+            if (((fontSpaceing + fontMetrics.ascent) > PADDING && (fontSpaceing + fontMetrics.ascent) < PADDING + bitmap.getHeight()) ||
+                    ((fontSpaceing + fontMetrics.descent) > PADDING && (fontSpaceing + fontMetrics.descent) < PADDING + bitmap.getHeight())) {
+                usableLength = getWidth() - bitmap.getWidth();
+            } else {
+                usableLength = getWidth();
+            }
+
+
+            count = textPaint.breakText(text, start, text.length(), true, usableLength, null);
+            canvas.drawText(text, start, start + count, 0, fontSpaceing, textPaint);
+            currentRow++;
+            start += count;
+        }
+
     }
 
     private Bitmap getBitmap(int width) {
