@@ -1,1 +1,1 @@
-include ':app', ':dashboard', ':piechart', ':avatarview'
+include ':app', ':09_drawing'
