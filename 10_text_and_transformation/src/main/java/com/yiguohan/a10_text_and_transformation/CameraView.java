@@ -33,10 +33,25 @@ public class CameraView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+
         canvas.save();
         canvas.translate(getWidth() / 2, getHeight() / 2);
+        canvas.rotate(15);
+        canvas.clipRect(-bitmapWidth * 2, -bitmapHeight * 2, bitmapWidth * 2, 0);
+        canvas.rotate(-15);
+        canvas.drawBitmap(avatar, -bitmapWidth / 2, -bitmapHeight / 2, mPaint);
+        canvas.translate(-getWidth() / 2, -getHeight() / 2);
+        canvas.restore();
+
+
+        canvas.save();
+        canvas.translate(getWidth() / 2, getHeight() / 2);
+        canvas.rotate(15);
+        canvas.clipRect(-bitmapWidth * 2, 0, bitmapWidth * 2, bitmapHeight);
         mCamera.rotateX(30);
         mCamera.applyToCanvas(canvas);
+        canvas.rotate(-15);
         canvas.drawBitmap(avatar, -bitmapWidth / 2, -bitmapHeight / 2, mPaint);
         canvas.translate(-getWidth() / 2, -getHeight() / 2);
         canvas.restore();
