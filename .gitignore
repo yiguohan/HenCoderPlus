@@ -5,9 +5,13 @@
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
+/.idea/misc.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
 /build
 /captures
 .externalNativeBuild
+09_drawing/libs/
+10_text_and_transformation/libs/
+app/libs/
