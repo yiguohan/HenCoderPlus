@@ -7,13 +7,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        PointView view = findViewById(R.id.view);
+        ProvinceView view = findViewById(R.id.view);
         /**
          * 使用AnimationSet
          */
@@ -70,6 +72,23 @@ public class MainActivity extends AppCompatActivity {
 //        }, new PointF(Utils.dp2px(200), Utils.dp2px(200)));
 //        animator.setStartDelay(1000);
 //        animator.setDuration(1000);
+//        animator.start();
+
+        /**
+         * 使用自定义TypedEvaluator来进行drawText的动画实现
+         */
+//        final List<String> provinceList = Utils.provinces;
+//        ObjectAnimator animator = ObjectAnimator.ofObject(view, "text", new TypeEvaluator<String>() {
+//            @Override
+//            public String evaluate(float fraction, String startValue, String endValue) {
+//                int start = provinceList.indexOf(startValue);
+//                int end = provinceList.indexOf(endValue);
+//                int current = (int) (start + (end - start) * fraction);
+//                return provinceList.get(current);
+//            }
+//        }, "北京市", "澳门特别行政区");
+//        animator.setStartDelay(1000);
+//        animator.setDuration(2000);
 //        animator.start();
     }
 }
