@@ -1,1 +1,1 @@
-include ':app', ':09_drawing', ':10_text_and_transformation', ':11_animation', ':12_bitmap_drawable'
+include ':app', ':09_drawing', ':10_text_and_transformation', ':11_animation', ':12_bitmap_drawable', ':13_layout'
